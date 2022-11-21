@@ -1,0 +1,9 @@
+<launch>
+    <!-- velocity control launch file -->
+    <arg name="timestep" default="1.0" /> 
+    <arg name="port" default="42421" /> 
+    <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
+        <param name="TIMESTEP" value="$(arg timestep)" type="double" />
+        <param name="PORT" value="$(arg port)" type="int" />
+    </node>
+</launch>
