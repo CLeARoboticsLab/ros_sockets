@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="ros_sockets" type="gazebo_tracker" name="gazebo_tracker"  output="screen">
+        <param name="update_frequency" value="0.5" type="double" />
+        <param name="model_name" value="ground_plane" type="str" />
+    </node>
+</launch>
