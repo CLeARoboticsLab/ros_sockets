@@ -94,6 +94,24 @@ When a new sequence is sent to the node, the node will discard any remaining com
 
 When done, be sure to close the TCP connection.
 
+### Motion Tracker Simulation
+
+This node tracks the pose of a model in Gazebo and publishes it to the topic `/<tracker_name>/pose`. Used to simulate the [vrpn_client_ros](http://wiki.ros.org/vrpn_client_ros) node that is used with motion capture systems like Vicon and OptiTrack.
+
+#### Launching the node
+
+Edit the parameters in the launch file at: `/launch/gazebo_tracker.launch`.
+
+- `tracker_name`: name that is assigned to the tracker. The topic that pose data will be published to is `/<tracker_name>/pose`.
+- `model_name`: name of the model in Gazebo that will be tracked.
+- `update_frequency`: rate in Hz to publish pose data.
+
+After editing the launch file, launch the node with:
+
+```sh
+roslaunch ros_sockets gazebo_tracker.launch
+```
+
 ## Acknowledgments
 
 This package is heavily based on infrastructure from [@schmidma](https://github.com/schmidma) and [@lassepe](https://github.com/lassepe).
