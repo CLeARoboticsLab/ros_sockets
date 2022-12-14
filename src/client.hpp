@@ -13,7 +13,7 @@ class Client
     Client();
   private:
     asio::io_service io_service_;
-    asio::ip::tcp::socket socket_;
+    asio::ip::udp::socket socket_;
 };
 
 } // namespace client
