@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include "geometry_msgs/PoseStamped.h"
 #include <string>
+#include "client.hpp"
 
 class StateFeedback
 {
@@ -54,6 +55,8 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "state_feedback");
 
   StateFeedback state_feedback;
+
+  communication::Client client;
 
   ros::spin();
   

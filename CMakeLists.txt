@@ -32,6 +32,7 @@ target_link_libraries(
 
 add_executable(state_feedback
 	src/state_feedback.cpp
+	src/client.cpp
 )
 target_link_libraries(
 	state_feedback
