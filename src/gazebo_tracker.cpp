@@ -1,11 +1,13 @@
 #include <ros/ros.h>
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Twist.h"
+#include "geometry_msgs/TwistStamped.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <string>
 
-// Tracks the pose of a model in Gazebo, <model_name> and publishes it to
-// /<tracker_name>/pose.
+// Tracks the pose and twist of a model in Gazebo, <model_name> and publishes
+// them to <tracker_name>/pose and <tracker_name>/twist.
 class Tracker 
 {
   public:
@@ -20,9 +22,12 @@ class Tracker
       double update_frequency;
       nh_.getParam("/gazebo_tracker/update_frequency", update_frequency);
       
-      std::string pub_topic = "/" + tracker_name_ + "/pose";
-      pub_ = nh_.advertise<geometry_msgs::PoseStamped>(
-          pub_topic, 100);
+      pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>(
+          "/" + tracker_name_ + "/pose", 
+          100);
+      twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(
+          "/" + tracker_name_ + "/twist", 
+          100);
       sub_ = nh_.subscribe(
           "/gazebo/model_states", 100,
           &Tracker::model_states_callback, this);
@@ -42,12 +47,17 @@ class Tracker
     geometry_msgs::Pose model_pose_;
     geometry_msgs::PoseStamped model_pose_stamped_;
 
+    // Twist data
+    geometry_msgs::Twist model_twist_;
+    geometry_msgs::TwistStamped model_twist_stamped_;
+
     // Used to control the rate that pose data is published
     bool ready_to_pub_;
 
     // ROS objects
     ros::NodeHandle nh_;
-    ros::Publisher pub_;
+    ros::Publisher pose_pub_;
+    ros::Publisher twist_pub_;
     ros::Subscriber sub_;
     ros::Timer timer_;
 
@@ -62,14 +72,15 @@ class Tracker
       return -1;
     }
 
-    // Updates the model index and publishes pose data if ready to publish.
+    // Updates the model index and publishes state data if ready to publish.
     void model_states_callback(gazebo_msgs::ModelStates model_states)
     {
       model_idx_ = getModelIndex(model_states.name, model_name_);
       if (ready_to_pub_ && model_idx_ != -1)
       {
         model_pose_ = model_states.pose[model_idx_];
-        publish_pose_stamped();
+        model_twist_ = model_states.twist[model_idx_];
+        publish_state();
       }
     }
     
@@ -80,11 +91,15 @@ class Tracker
     }
 
     // Publishes the pose data to the topic.
-    void publish_pose_stamped()
+    void publish_state()
     {
       ready_to_pub_ = false;
+
+      model_twist_stamped_.twist = model_twist_;
       model_pose_stamped_.pose = model_pose_;
-      pub_.publish(model_pose_stamped_);
+      
+      twist_pub_.publish(model_twist_stamped_);
+      pose_pub_.publish(model_pose_stamped_);
     } 
 
 };
