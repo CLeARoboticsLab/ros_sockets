@@ -49,7 +49,7 @@ class StateFeedback
       {
         ready_to_send_ = false;
         client_->send_data(json_string(pose_stamped));
-        ROS_INFO_STREAM("Sent data");
+        ROS_INFO_STREAM("State data sent");
       }
     }
 

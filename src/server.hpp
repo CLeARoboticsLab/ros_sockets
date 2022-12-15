@@ -4,11 +4,11 @@
 #include <boost/asio.hpp>
 #include <thread>
 
-namespace Communication {
+namespace communication {
 
 namespace asio = boost::asio;
 
-struct Server {
+class Server {
 	public:
 		Server(std::shared_ptr<ControlData> control_data, std::uint16_t port);
 		Server(const Server &) = delete;
@@ -32,4 +32,4 @@ struct Server {
 		asio::streambuf buffer;
 };
 
-} // namespace Communication
+} // namespace communication

@@ -1,4 +1,4 @@
-#include "communication.hpp"
+#include "server.hpp"
 #include "control_data.hpp"
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
@@ -47,7 +47,7 @@ auto main(int argc, char **argv) -> int {
 	int PORT;
 	nh.getParam("/velocity_control/PORT", PORT);
 	ROS_INFO_STREAM("Starting communication server on port " << PORT);
-	Communication::Server server(control_data, PORT);
+	communication::Server server(control_data, PORT);
 
 	while (!g_request_shutdown && ros::ok()) {
 		

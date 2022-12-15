@@ -1,10 +1,10 @@
-#include "communication.hpp"
+#include "server.hpp"
 #include "nlohmann/json.hpp"
 #include "ros/ros.h"
 #include <iostream>
 #include <utility>
 
-namespace Communication {
+namespace communication {
 
 Server::Server(std::shared_ptr<ControlData> control_data, std::uint16_t port)
     		: control_data(std::move(control_data)),
@@ -73,4 +73,4 @@ void Server::read_handler(const boost::system::error_code &error,
   	}
 }
 
-} // namespace Communication
+} // namespace communication

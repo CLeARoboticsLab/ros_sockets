@@ -14,7 +14,7 @@ include_directories(
 
 add_executable(velocity_control
 	src/velocity_control.cpp
-	src/communication.cpp
+	src/server.cpp
 	src/control_data.cpp
 )
 target_link_libraries(
