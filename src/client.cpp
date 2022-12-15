@@ -4,18 +4,24 @@
 namespace communication
 {
 
-Client::Client() : socket_(io_service_)
+Client::Client(std::string ip, int port) 
+    : socket_(io_service_),
+      endpoint_(asio::ip::address::from_string(ip), port)
 {
-  asio::ip::udp::endpoint remote_endpoint = 
-      asio::ip::udp::endpoint(asio::ip::address::from_string("192.168.1.207"), 42422);
-  socket_.open(asio::ip::udp::v4());
+  socket_.open(asio::ip::udp::v4());  
+}
 
-  std::string payload = "Data sent via UDP";
-  boost::system::error_code err;
-  auto sent = socket_.send_to(asio::buffer(payload), remote_endpoint, 0, err);
+Client::~Client()
+{
   socket_.close();
+  io_service_.stop();
+}
 
-  ROS_INFO_STREAM("Client sent message");
+void Client::send_data(std::string data)
+{
+  boost::system::error_code err;
+  auto sent = socket_.send_to(asio::buffer(data), endpoint_, 0, err);
+  ROS_INFO_STREAM("Client sent data");
 }
 
 } // namespace client

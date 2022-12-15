@@ -56,7 +56,8 @@ int main(int argc, char** argv)
 
   StateFeedback state_feedback;
 
-  communication::Client client;
+  communication::Client client("192.168.1.207",42422);
+  client.send_data("fake data");
 
   ros::spin();
   
