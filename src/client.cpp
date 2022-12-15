@@ -1,5 +1,4 @@
 #include "client.hpp"
-#include "ros/ros.h"
 
 namespace communication
 {
@@ -21,7 +20,6 @@ void Client::send_data(std::string data)
 {
   boost::system::error_code err;
   auto sent = socket_.send_to(asio::buffer(data), endpoint_, 0, err);
-  ROS_INFO_STREAM("Client sent data");
 }
 
 } // namespace client
