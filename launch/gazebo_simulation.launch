@@ -8,7 +8,7 @@
     <!-- launch state feedback -->
     <node pkg="ros_sockets" type="state_feedback" name="state_feedback" output="screen">
         <param name="tracker_name" value="agent1" type="str" />
-        <param name="max_update_frequency" value="1.0" type="double" />
+        <param name="max_update_frequency" value="0.15" type="double" />
         <param name="ip_address" value="192.168.1.207" type="str" />
         <param name="port" value="42422" type="int" />
     </node>
