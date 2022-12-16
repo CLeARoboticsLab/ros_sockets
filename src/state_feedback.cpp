@@ -83,10 +83,10 @@ class StateFeedback
       j["position"] = {pose_stamped_.pose.position.x,
                         pose_stamped_.pose.position.y,
                         pose_stamped_.pose.position.z};
-      j["orientation"] = {pose_stamped_.pose.orientation.x,
+      j["orientation"] = {pose_stamped_.pose.orientation.w,
+                          pose_stamped_.pose.orientation.x,
                           pose_stamped_.pose.orientation.y,
-                          pose_stamped_.pose.orientation.z,
-                          pose_stamped_.pose.orientation.w};
+                          pose_stamped_.pose.orientation.z};
       j["linear_vel"] = {twist_stamped_.twist.linear.x,
                           twist_stamped_.twist.linear.y,
                           twist_stamped_.twist.linear.z};
