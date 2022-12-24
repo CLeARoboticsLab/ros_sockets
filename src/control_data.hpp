@@ -4,12 +4,14 @@
 #include <mutex>
 #include <vector>
 
-struct VelocityCommand {
-  	double x{0.0};
-  	double phi{0.0};
+struct VelocityCommand
+{
+  double x{0.0};
+  double phi{0.0};
 };
 
-struct ControlData {
+struct ControlData
+{
 	public:
 		void update(std::vector<VelocityCommand> value);
 		auto get_new_data() -> std::vector<VelocityCommand>;

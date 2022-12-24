@@ -1,14 +1,17 @@
 #pragma once
 
-#include "control_data.hpp"
 #include <boost/asio.hpp>
 #include <thread>
 
-namespace communication {
+#include "control_data.hpp"
+
+namespace communication
+{
 
 namespace asio = boost::asio;
 
-class Server {
+class Server
+{
 	public:
 		Server(std::shared_ptr<ControlData> control_data, std::uint16_t port);
 		Server(const Server &) = delete;
@@ -19,7 +22,7 @@ class Server {
 
 	private:
 		void read_handler(const boost::system::error_code &error,
-							std::size_t bytes_transferred);
+        std::size_t bytes_transferred);
 		void accept_handler(const boost::system::error_code &error);
 		void schedule_read();
 		void schedule_accept();

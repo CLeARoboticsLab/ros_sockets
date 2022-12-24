@@ -1,14 +1,17 @@
-#include "server.hpp"
-#include "control_data.hpp"
-#include "geometry_msgs/Twist.h"
-#include "ros/ros.h"
 #include <iostream>
 #include <signal.h>
+
+#include <ros/ros.h>
+#include "geometry_msgs/Twist.h"
+
+#include "server.hpp"
+#include "control_data.hpp"
 
 // Flag for whether shutdown is requested
 sig_atomic_t volatile g_request_shutdown = 0;
 
-void publish_command(ros::Publisher publisher, VelocityCommand command) {
+void publish_command(ros::Publisher publisher, VelocityCommand command)
+{
 	geometry_msgs::Twist twist;
 	twist.linear.x = command.x;
 	twist.angular.z = command.phi;
@@ -16,11 +19,13 @@ void publish_command(ros::Publisher publisher, VelocityCommand command) {
 }
 
 // Handles ctrl+c of the node
-void sig_int_handler(int sig) {
+void sig_int_handler(int sig)
+{
 	g_request_shutdown = 1;
 }
 
-auto main(int argc, char **argv) -> int {
+auto main(int argc, char **argv) -> int
+{
 	auto control_data = std::make_shared<ControlData>();
 
 	// initialize node
@@ -31,10 +36,11 @@ auto main(int argc, char **argv) -> int {
 	nh.getParam("/velocity_control/TIMESTEP", TIMESTEP);
 	
 	// check for a valid timestep
-	if (TIMESTEP <= 0.0) {
+	if (TIMESTEP <= 0.0)
+  {
 		ROS_ERROR_STREAM("Time step must be greater than 0.0. Shutting down.");
 		ros::shutdown();
-  		return 0;
+    return 0;
 	}
 
 	// continue node initialization
@@ -49,14 +55,13 @@ auto main(int argc, char **argv) -> int {
 	ROS_INFO_STREAM("Starting communication server on port " << PORT);
 	communication::Server server(control_data, PORT);
 
-	while (!g_request_shutdown && ros::ok()) {
-		
+	while (!g_request_shutdown && ros::ok())
+  {
 		// if get_new_data() returns an emtpy vector, then no data has appeared within 
 		// the timeout period
 		auto commands = control_data->get_new_data();
-		if (commands.empty()) {
+		if (commands.empty())
 			continue;
-		}
 
 		// append a stop command to the end of any incoming control sequence
 		// to ensure robot stops after all commands are sent
@@ -64,10 +69,10 @@ auto main(int argc, char **argv) -> int {
 		commands.push_back(stop_command);
 
 		// pushlish velocity commands in a timed loop
-		for (auto command : commands) {
-			if (control_data->has_new_data()) {
+		for (auto command : commands)
+    {
+			if (control_data->has_new_data())
 				break;
-			}
 			publish_command(publisher, command);
 			ROS_DEBUG_STREAM("Velocity command x: " << command.x << "  phi: " << command.phi);
 			ros::spinOnce();
@@ -82,5 +87,5 @@ auto main(int argc, char **argv) -> int {
 	ros::shutdown();
 	std::cout << "Exited." << std::endl;
 
-  	return 0;
+  return 0;
 }

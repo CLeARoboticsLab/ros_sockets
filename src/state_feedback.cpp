@@ -1,10 +1,12 @@
+#include <string>
+
 #include <ros/ros.h>
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/TwistStamped.h"
-#include <string>
-#include "client.hpp"
 
+#include "client.hpp"
 #include "nlohmann/json.hpp"
+
 using json = nlohmann::json;
 
 class StateFeedback

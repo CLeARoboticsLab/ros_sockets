@@ -1,10 +1,11 @@
+#include <string>
+
 #include <ros/ros.h>
+#include <gazebo_msgs/ModelStates.h>
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/TwistStamped.h"
-#include <gazebo_msgs/ModelStates.h>
-#include <string>
 
 // Tracks the pose and twist of a model in Gazebo, <model_name> and publishes
 // them to <tracker_name>/pose and <tracker_name>/twist.
