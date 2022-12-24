@@ -4,7 +4,7 @@
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/TwistStamped.h"
 
-#include "client.hpp"
+#include "ros_sockets/client.hpp"
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;

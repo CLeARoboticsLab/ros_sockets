@@ -4,8 +4,8 @@
 #include <ros/ros.h>
 #include "geometry_msgs/Twist.h"
 
-#include "server.hpp"
-#include "control_data.hpp"
+#include "ros_sockets/server.hpp"
+#include "ros_sockets/control_data.hpp"
 
 // Flag for whether shutdown is requested
 sig_atomic_t volatile g_request_shutdown = 0;
