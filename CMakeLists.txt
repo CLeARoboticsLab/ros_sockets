@@ -17,17 +17,25 @@ add_executable(velocity_control
 	src/communication.cpp
 	src/control_data.cpp
 )
-
-target_link_libraries(velocity_control
+target_link_libraries(
+	velocity_control
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS 
-	velocity_control
+add_executable(gazebo_tracker
+	src/gazebo_tracker.cpp
+)
+target_link_libraries(
+	gazebo_tracker
+	${catkin_LIBRARIES}
+)
+
+install(TARGETS	velocity_control gazebo_tracker
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
 install(DIRECTORY launch/
 	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
