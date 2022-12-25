@@ -9,12 +9,13 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package()
 
 include_directories(
+	include
 	${catkin_INCLUDE_DIRS}
 )
 
 add_executable(velocity_control
 	src/velocity_control.cpp
-	src/communication.cpp
+	src/server.cpp
 	src/control_data.cpp
 )
 target_link_libraries(
@@ -30,7 +31,16 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS	velocity_control gazebo_tracker
+add_executable(state_feedback
+	src/state_feedback.cpp
+	src/client.cpp
+)
+target_link_libraries(
+	state_feedback
+	${catkin_LIBRARIES}
+)
+
+install(TARGETS	velocity_control gazebo_tracker state_feedback
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
