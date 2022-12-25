@@ -10,7 +10,7 @@ struct VelocityCommand
   double phi{0.0};
 };
 
-struct ControlData
+class ControlData
 {
 	public:
 		void update(std::vector<VelocityCommand> value);
