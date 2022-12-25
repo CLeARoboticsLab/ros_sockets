@@ -62,7 +62,7 @@ class StateFeedback
       {
         ready_to_send_ = false;
         pose_stamped_ = pose_stamped;
-        client_->send_data(json_datastring());
+        client_->sendData(json_datastring());
         ROS_INFO_STREAM("State data sent");
       }
     }

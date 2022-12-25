@@ -8,27 +8,27 @@ using namespace std::chrono_literals;
 
 void ControlData::update(std::vector<VelocityCommand> value)
 {
-	std::unique_lock<std::mutex> lock(data_mutex);
-	data = std::move(value);
-	is_updated = true;
-	condition_variable.notify_all();
+	std::unique_lock<std::mutex> lock(data_mutex_);
+	data_ = std::move(value);
+	is_updated_ = true;
+	condition_variable_.notify_all();
 	ROS_INFO_STREAM("Control commands received");
 }
 
-auto ControlData::has_new_data() const -> bool
+auto ControlData::hasNewData() const -> bool
 {
-	std::unique_lock<std::mutex> lock(data_mutex);
-	return is_updated;
+	std::unique_lock<std::mutex> lock(data_mutex_);
+	return is_updated_;
 }
 
-auto ControlData::get_new_data() -> std::vector<VelocityCommand>
+auto ControlData::getNewData() -> std::vector<VelocityCommand>
 {
-	std::unique_lock<std::mutex> lock(data_mutex);
-	condition_variable.wait_for(lock, 2s, [this] { return is_updated; });
-  if (is_updated)
+	std::unique_lock<std::mutex> lock(data_mutex_);
+	condition_variable_.wait_for(lock, 2s, [this] { return is_updated_; });
+  if (is_updated_)
   {
-    is_updated = false;
-    return data;
+    is_updated_ = false;
+    return data_;
   }
   else
   {

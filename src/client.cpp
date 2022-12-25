@@ -16,7 +16,7 @@ Client::~Client()
   io_service_.stop();
 }
 
-void Client::send_data(std::string data)
+void Client::sendData(std::string data)
 {
   boost::system::error_code err;
   auto sent = socket_.send_to(asio::buffer(data), endpoint_, 0, err);

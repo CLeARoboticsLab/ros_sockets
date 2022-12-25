@@ -12,14 +12,14 @@ struct VelocityCommand
 
 class ControlData
 {
-	public:
-		void update(std::vector<VelocityCommand> value);
-		auto get_new_data() -> std::vector<VelocityCommand>;
-		auto has_new_data() const -> bool;
+  public:
+    void update(std::vector<VelocityCommand> value);
+    auto getNewData() -> std::vector<VelocityCommand>;
+    auto hasNewData() const -> bool;
 
-	private:
-		mutable std::mutex data_mutex;
-		std::vector<VelocityCommand> data{};
-		std::condition_variable condition_variable;
-		bool is_updated{false};
+  private:
+    mutable std::mutex data_mutex_;
+    std::vector<VelocityCommand> data_{};
+    std::condition_variable condition_variable_;
+    bool is_updated_{false};
 };

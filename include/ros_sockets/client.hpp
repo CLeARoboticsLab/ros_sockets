@@ -13,7 +13,7 @@ class Client
   public:
     Client(std::string ip, int port);
     ~Client();
-    void send_data(std::string data);
+    void sendData(std::string data);
   private:
     asio::io_service io_service_;
     asio::ip::udp::socket socket_;

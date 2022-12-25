@@ -31,7 +31,7 @@ class Tracker
           100);
       sub_ = nh_.subscribe(
           "/gazebo/model_states", 100,
-          &Tracker::model_states_callback, this);
+          &Tracker::modelStatesCallback, this);
       timer_ = nh_.createTimer(
           ros::Duration(1.0/update_frequency),
           &Tracker::timerCallback, this);
@@ -74,14 +74,14 @@ class Tracker
     }
 
     // Updates the model index and publishes state data if ready to publish.
-    void model_states_callback(gazebo_msgs::ModelStates model_states)
+    void modelStatesCallback(gazebo_msgs::ModelStates model_states)
     {
       model_idx_ = getModelIndex(model_states.name, model_name_);
       if (ready_to_pub_ && model_idx_ != -1)
       {
         model_pose_ = model_states.pose[model_idx_];
         model_twist_ = model_states.twist[model_idx_];
-        publish_state();
+        publishState();
       }
     }
     
@@ -92,7 +92,7 @@ class Tracker
     }
 
     // Publishes the pose data to the topic.
-    void publish_state()
+    void publishState()
     {
       ready_to_pub_ = false;
 
