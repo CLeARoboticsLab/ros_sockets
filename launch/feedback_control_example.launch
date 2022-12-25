@@ -12,11 +12,4 @@
         <param name="ip_address" value="192.168.1.207" type="str" />
         <param name="port" value="42422" type="int" />
     </node>
-
-    <!-- launch gazebo motion capture simulation -->
-    <node pkg="ros_sockets" type="gazebo_tracker" name="gazebo_tracker"  output="screen">
-        <param name="tracker_name" value="agent1" type="str" />
-        <param name="model_name" value="turtlebot3_burger" type="str" />
-        <param name="update_frequency" value="2.0" type="double" />
-    </node>
 </launch>
