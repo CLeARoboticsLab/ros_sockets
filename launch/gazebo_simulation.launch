@@ -1,8 +1,8 @@
 <launch>
     <!-- launch velocity control -->
     <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
-        <param name="TIMESTEP" value="0.1" type="double" />
-        <param name="PORT" value="42421" type="int" />
+        <param name="timestep" value="0.1" type="double" />
+        <param name="port" value="42421" type="int" />
     </node>
 
     <!-- launch state feedback -->

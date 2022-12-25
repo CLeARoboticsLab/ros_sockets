@@ -32,11 +32,11 @@ auto main(int argc, char **argv) -> int
 	ros::init(argc, argv, "velocity_control", ros::init_options::NoSigintHandler);
 	signal(SIGINT, sig_int_handler);
 	ros::NodeHandle nh;
-	double TIMESTEP;
-	nh.getParam("/velocity_control/TIMESTEP", TIMESTEP);
+	double timestep;
+	nh.getParam("/velocity_control/timestep", timestep);
 	
 	// check for a valid timestep
-	if (TIMESTEP <= 0.0)
+	if (timestep <= 0.0)
   {
 		ROS_ERROR_STREAM("Time step must be greater than 0.0. Shutting down.");
 		ros::shutdown();
@@ -44,16 +44,16 @@ auto main(int argc, char **argv) -> int
 	}
 
 	// continue node initialization
-	ROS_INFO_STREAM("Initializing node with timestep of " << TIMESTEP << " sec");
+	ROS_INFO_STREAM("Initializing node with timestep of " << timestep << " sec");
 	const auto queue_size = 100;
 	ros::Publisher publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", queue_size);
-	ros::Rate loop_rate(1 / TIMESTEP);
+	ros::Rate loop_rate(1 / timestep);
 
 	// start server
-	int PORT;
-	nh.getParam("/velocity_control/PORT", PORT);
-	ROS_INFO_STREAM("Starting communication server on port " << PORT);
-	communication::Server server(control_data, PORT);
+	int port;
+	nh.getParam("/velocity_control/port", port);
+	ROS_INFO_STREAM("Starting communication server on port " << port);
+	communication::Server server(control_data, port);
 
 	while (!g_request_shutdown && ros::ok())
   {
