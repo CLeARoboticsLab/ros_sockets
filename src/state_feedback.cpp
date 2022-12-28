@@ -36,6 +36,11 @@ class StateFeedback
       client_ = new communication::Client(ip,port);
     }
 
+    ~StateFeedback()
+    {
+      delete client_;
+    }
+
   private:
 
     // Used to limit the rate that pose data is sent

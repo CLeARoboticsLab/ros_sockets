@@ -47,6 +47,7 @@ class VelocityControl
 
     ~VelocityControl()
     {
+      delete rate_;
       delete server_;
     }
 
