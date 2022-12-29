@@ -1,0 +1,76 @@
+<!-- This launch file starts a velocity control node and a state feedback node
+for 3 robots. It also starts a Gazebo Tracker node for each robot to simulate
+motion capture. -->
+
+<launch>
+
+    <!-- Model names of the robots -->
+    <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="bot1"    default="agent1"/>
+    <arg name="bot2"    default="agent2"/>
+    <arg name="bot3"    default="agent3"/>
+
+    <!-- Global node parameters -->
+    <arg name="TIMESTEP"  default="0.1"/>
+    <arg name="FEEDBACK_UPDATE_FREQ"  default="1.0"/>
+    <arg name="SIM_MOCAP_UPDATE_FREQ"  default="10.0"/>
+    <arg name="IP_ADDRESS"  default="192.168.1.207"/>
+
+    <!-- Launch nodes for agent1 -->
+    <group ns = "$(arg bot1)">
+        <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
+            <param name="timestep" value="$(arg TIMESTEP)" type="double" />
+            <param name="port" value="42421" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="state_feedback" name="state_feedback" output="screen">
+            <param name="tracker_name" value="$(arg bot1)" type="str" />
+            <param name="max_update_frequency" value="$(arg FEEDBACK_UPDATE_FREQ)" type="double" />
+            <param name="ip_address" value="$(arg IP_ADDRESS)" type="str" />
+            <param name="port" value="42431" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="gazebo_tracker" name="gazebo_tracker"  output="screen">
+            <param name="tracker_name" value="$(arg bot1)" type="str" />
+            <param name="model_name" value="$(arg bot1)" type="str" />
+            <param name="update_frequency" value="$(arg SIM_MOCAP_UPDATE_FREQ)" type="double" />
+        </node>
+    </group>
+
+    <!-- Launch nodes for agent2 -->
+    <group ns = "$(arg bot2)">
+        <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
+            <param name="timestep" value="$(arg TIMESTEP)" type="double" />
+            <param name="port" value="42422" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="state_feedback" name="state_feedback" output="screen">
+            <param name="tracker_name" value="$(arg bot2)" type="str" />
+            <param name="max_update_frequency" value="$(arg FEEDBACK_UPDATE_FREQ)" type="double" />
+            <param name="ip_address" value="$(arg IP_ADDRESS)" type="str" />
+            <param name="port" value="42432" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="gazebo_tracker" name="gazebo_tracker"  output="screen">
+            <param name="tracker_name" value="$(arg bot2)" type="str" />
+            <param name="model_name" value="$(arg bot2)" type="str" />
+            <param name="update_frequency" value="$(arg SIM_MOCAP_UPDATE_FREQ)" type="double" />
+        </node>
+    </group>
+
+    <!-- Launch nodes for agent3 -->
+    <group ns = "$(arg bot3)">
+        <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
+            <param name="timestep" value="$(arg TIMESTEP)" type="double" />
+            <param name="port" value="42423" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="state_feedback" name="state_feedback" output="screen">
+            <param name="tracker_name" value="$(arg bot3)" type="str" />
+            <param name="max_update_frequency" value="$(arg FEEDBACK_UPDATE_FREQ)" type="double" />
+            <param name="ip_address" value="$(arg IP_ADDRESS)" type="str" />
+            <param name="port" value="42433" type="int" />
+        </node>
+        <node pkg="ros_sockets" type="gazebo_tracker" name="gazebo_tracker"  output="screen">
+            <param name="tracker_name" value="$(arg bot3)" type="str" />
+            <param name="model_name" value="$(arg bot3)" type="str" />
+            <param name="update_frequency" value="$(arg SIM_MOCAP_UPDATE_FREQ)" type="double" />
+        </node>
+    </group>
+
+</launch>
