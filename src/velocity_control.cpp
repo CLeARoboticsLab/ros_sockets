@@ -10,14 +10,6 @@
 // Flag for whether shutdown is requested
 sig_atomic_t volatile g_request_shutdown = 0;
 
-void publishCommand(ros::Publisher publisher, VelocityCommand command)
-{
-  geometry_msgs::Twist twist;
-  twist.linear.x = command.x;
-  twist.angular.z = command.phi;
-  publisher.publish(twist);
-}
-
 // Handles ctrl+c of the node
 void sigIntHandler(int sig)
 {
@@ -51,10 +43,10 @@ class VelocityControl
       delete server_;
     }
 
-    void spinOnce()
+    void getData()
     {
-      // if getNewData() returns an emtpy vector, then no data has appeared within 
-      // the timeout period
+      // if getNewData() returns an emtpy vector, then no data has appeared
+      // within the timeout period
       auto commands = control_data_->getNewData();
       if (commands.empty())
         return;
@@ -100,8 +92,16 @@ class VelocityControl
       if (timestep <= 0.0)
       {
         ROS_ERROR_STREAM("Time step must be greater than 0.0. Shutting down.");
-        ros::shutdown(); //TODO: test this
+        ros::shutdown();
       }
+    }
+
+    void publishCommand(ros::Publisher publisher, VelocityCommand command)
+    {
+      geometry_msgs::Twist twist;
+      twist.linear.x = command.x;
+      twist.angular.z = command.phi;
+      publisher.publish(twist);
     }
 };
 
@@ -115,7 +115,7 @@ auto main(int argc, char **argv) -> int
 
   while (!g_request_shutdown && ros::ok())
   {
-    velocity_control.spinOnce();
+    velocity_control.getData();
   }
 
   // shutdown gracefully if node is interrupted
