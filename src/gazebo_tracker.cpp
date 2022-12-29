@@ -18,10 +18,10 @@ class Tracker
       model_idx_ = -1;
       ready_to_pub_ = false;
 
-      nh_.getParam("/gazebo_tracker/tracker_name", tracker_name_);
-      nh_.getParam("/gazebo_tracker/model_name", model_name_);
+      nh_.getParam("gazebo_tracker/tracker_name", tracker_name_);
+      nh_.getParam("gazebo_tracker/model_name", model_name_);
       double update_frequency;
-      nh_.getParam("/gazebo_tracker/update_frequency", update_frequency);
+      nh_.getParam("gazebo_tracker/update_frequency", update_frequency);
       
       pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>(
           "/" + tracker_name_ + "/pose", 
