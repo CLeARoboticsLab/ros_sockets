@@ -227,6 +227,16 @@ Launch it with:
 roslaunch ros_sockets gazebo_simulation_example.launch
 ```
 
+### Multi-Agent Simulation Example
+
+This launch file starts velocity control, state feedback, and Gazebo tracking
+for 3 robots.
+Launch it with:
+
+```sh
+roslaunch ros_sockets multi_agent_example.launch
+```
+
 ## Acknowledgments
 
 The velocity control node is heavily based on infrastructure from [@schmidma](https://github.com/schmidma) and [@lassepe](https://github.com/lassepe).

@@ -1,3 +1,5 @@
+<!-- This launch file starts a velocity control node and a state feedback node. -->
+
 <launch>
     <!-- launch velocity control -->
     <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">

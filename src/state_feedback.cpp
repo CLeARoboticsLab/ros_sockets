@@ -16,13 +16,13 @@ class StateFeedback
     StateFeedback()
     {
       std::string tracker_name;
-      nh_.getParam("/state_feedback/tracker_name", tracker_name);
+      nh_.getParam("state_feedback/tracker_name", tracker_name);
       double max_update_frequency;
-      nh_.getParam("/state_feedback/max_update_frequency", max_update_frequency);
+      nh_.getParam("state_feedback/max_update_frequency", max_update_frequency);
       std::string ip;
-      nh_.getParam("/state_feedback/ip_address", ip);
+      nh_.getParam("state_feedback/ip_address", ip);
       int port;
-      nh_.getParam("/state_feedback/port", port);
+      nh_.getParam("state_feedback/port", port);
 
       pose_sub_ = nh_.subscribe(
           "/" + tracker_name + "/pose", 100,

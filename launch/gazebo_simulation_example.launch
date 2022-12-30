@@ -1,3 +1,6 @@
+<!-- this launch file starts a velocity control node and a state feedback node.
+It also starts the Gazebo Tracker node to simulate motion capture.  -->
+
 <launch>
     <!-- launch velocity control -->
     <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">

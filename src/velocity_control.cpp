@@ -24,14 +24,14 @@ class VelocityControl
         : control_data_(std::move(control_data))
     {
       double timestep;
-      nh_.getParam("/velocity_control/timestep", timestep);
+      nh_.getParam("velocity_control/timestep", timestep);
       check_timestep(timestep);
       int port;
-      nh_.getParam("/velocity_control/port", port);
+      nh_.getParam("velocity_control/port", port);
 
       ROS_INFO_STREAM("Initializing node with timestep of " << timestep << " sec");
       const auto queue_size = 100;
-      pub_ = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", queue_size);
+      pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", queue_size);
       rate_ = new ros::Rate(1 / timestep);
       ROS_INFO_STREAM("Starting communication server on port " << port);
       server_ = new communication::Server(control_data_, port);
