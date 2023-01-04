@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 #include "geometry_msgs/Twist.h"
 
-#include "ros_sockets/server.hpp"
+#include "ros_sockets/control_server.hpp"
 #include "ros_sockets/control_data.hpp"
 
 // Flag for whether shutdown is requested
@@ -33,14 +33,14 @@ class VelocityControl
       const auto queue_size = 100;
       pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", queue_size);
       rate_ = new ros::Rate(1 / timestep);
-      ROS_INFO_STREAM("Starting communication server on port " << port);
-      server_ = new communication::Server(control_data_, port);
+      ROS_INFO_STREAM("Starting communication control server on port " << port);
+      control_server_ = new communication::ControlServer(control_data_, port);
     }
 
     ~VelocityControl()
     {
       delete rate_;
-      delete server_;
+      delete control_server_;
     }
 
     void getData()
@@ -85,7 +85,7 @@ class VelocityControl
     ros::Rate *rate_;
 
     std::shared_ptr<ControlData> control_data_;
-    communication::Server *server_;
+    communication::ControlServer *control_server_;
 
     void check_timestep(double timestep)
     {
