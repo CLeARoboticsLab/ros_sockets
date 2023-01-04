@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <thread>
 
-#include "control_data.hpp"
+#include "nlohmann/json.hpp"
 
 namespace communication
 {
@@ -13,7 +13,7 @@ namespace asio = boost::asio;
 class Server
 {
   public:
-    Server(std::shared_ptr<ControlData> control_data, std::uint16_t port);
+    Server(std::uint16_t port);
     Server(const Server &) = delete;
     Server(Server &&) = delete;
     auto operator=(const Server &) -> Server & = delete;
@@ -26,8 +26,8 @@ class Server
     void acceptHandler(const boost::system::error_code &error);
     void scheduleRead();
     void scheduleAccept();
+    virtual void processJson(nlohmann::json json_data){};
 
-    std::shared_ptr<ControlData> control_data_;
     std::thread thread_;
     asio::io_service io_service_;
     asio::ip::tcp::acceptor acceptor_;

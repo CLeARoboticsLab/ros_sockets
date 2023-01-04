@@ -4,14 +4,13 @@
 #include <utility>
 
 #include <ros/ros.h>
-#include "nlohmann/json.hpp"
+#include "ros_sockets/nlohmann/json.hpp"
 
 namespace communication
 {
 
-Server::Server(std::shared_ptr<ControlData> control_data, std::uint16_t port)
-    : control_data_(std::move(control_data)),
-      acceptor_(io_service_, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)),
+Server::Server(std::uint16_t port)
+    : acceptor_(io_service_, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)),
       socket_(io_service_)
 {
   scheduleAccept();
@@ -75,16 +74,8 @@ void Server::readHandler(const boost::system::error_code &error,
     std::istream stream(&buffer_);
     std::string payload;
     std::getline(stream, payload);
-    auto object = nlohmann::json::parse(payload);
-    std::vector<VelocityCommand> commands;
-    for (const auto &action : object["controls"])
-    {
-      VelocityCommand command;
-      command.x = action[0];
-      command.phi = action[1];
-      commands.push_back(command);
-    }
-    control_data_->update(commands);
+    nlohmann::json json_data = nlohmann::json::parse(payload);
+    processJson(json_data);
     scheduleRead();
   }
 }

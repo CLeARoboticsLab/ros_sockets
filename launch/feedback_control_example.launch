@@ -1,6 +1,9 @@
 <!-- This launch file starts a velocity control node and a state feedback node. -->
 
 <launch>
+    <!-- Add node name to console output to identify which node is talking -->
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
+
     <!-- launch velocity control -->
     <node pkg="ros_sockets" type="velocity_control" name="velocity_control"  output="screen">
         <param name="timestep" value="0.1" type="double" />
