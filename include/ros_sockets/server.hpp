@@ -20,8 +20,13 @@ class Server
     auto operator=(Server &&) -> Server & = delete;
     ~Server();
 
+  protected:
+    void scheduleWrite(std::string data);
+
   private:
     void readHandler(const boost::system::error_code &error,
+        std::size_t bytes_transferred);
+    void writeHandler(const boost::system::error_code &error,
         std::size_t bytes_transferred);
     void acceptHandler(const boost::system::error_code &error);
     void scheduleRead();

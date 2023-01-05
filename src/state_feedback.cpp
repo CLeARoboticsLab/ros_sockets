@@ -5,9 +5,6 @@
 #include "geometry_msgs/TwistStamped.h"
 
 #include "ros_sockets/feedback_server.hpp"
-#include "ros_sockets/nlohmann/json.hpp"
-
-using json = nlohmann::json;
 
 class StateFeedback
 {

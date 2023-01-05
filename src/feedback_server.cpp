@@ -15,6 +15,7 @@ void FeedbackServer::processInboundJson(nlohmann::json json_data)
     return;
   if (json_data["action"] != "get_feedback_data")
     return;
+  scheduleWrite(json_datastring()+'\n');
 }
 
 std::string FeedbackServer::json_datastring()
