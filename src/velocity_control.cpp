@@ -33,7 +33,7 @@ class VelocityControl
       const auto queue_size = 100;
       pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", queue_size);
       rate_ = new ros::Rate(1 / timestep);
-      ROS_INFO_STREAM("Starting communication control server on port " << port);
+      ROS_INFO_STREAM("Starting control server on port " << port);
       control_server_ = new communication::ControlServer(control_data_, port);
     }
 

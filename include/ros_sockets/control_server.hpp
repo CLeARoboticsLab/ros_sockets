@@ -13,7 +13,7 @@ class ControlServer : public Server
     ControlServer(std::shared_ptr<ControlData> control_data, std::uint16_t port);
 
   private:
-    void processJson(nlohmann::json json_data);
+    void processInboundJson(nlohmann::json json_data);
 
     std::shared_ptr<ControlData> control_data_;
 };

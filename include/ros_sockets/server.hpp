@@ -26,7 +26,7 @@ class Server
     void acceptHandler(const boost::system::error_code &error);
     void scheduleRead();
     void scheduleAccept();
-    virtual void processJson(nlohmann::json json_data){};
+    virtual void processInboundJson(nlohmann::json json_data){};
 
     std::thread thread_;
     asio::io_service io_service_;

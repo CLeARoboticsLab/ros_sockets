@@ -11,7 +11,7 @@ ControlServer::ControlServer(std::shared_ptr<ControlData> control_data, std::uin
       control_data_(std::move(control_data))
 {}
 
-void ControlServer::processJson(nlohmann::json json_data)
+void ControlServer::processInboundJson(nlohmann::json json_data)
 {
   std::vector<VelocityCommand> commands;
   for (const auto &action : json_data["controls"])

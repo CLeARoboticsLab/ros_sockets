@@ -75,7 +75,7 @@ void Server::readHandler(const boost::system::error_code &error,
     std::string payload;
     std::getline(stream, payload);
     nlohmann::json json_data = nlohmann::json::parse(payload);
-    processJson(json_data);
+    processInboundJson(json_data);
     scheduleRead();
   }
 }
