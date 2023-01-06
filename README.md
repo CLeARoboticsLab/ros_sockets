@@ -68,7 +68,7 @@ Parameters:
 
 - `port`: TCP port the node will listen on. This must be an integer between 1024 and 65535 and match the port that control commands are being sent to. It is recommended to select a port around 40000 to 60000.
 
-- `timestep`: Timestep duration in seconds. This duration will elapse between each velocity command when a sequence (array) of velocity commands is sent to the node. This argument should be set to match the timestep from the solver that is sending control input sequences to this node. Default is `1.0` sec if left blank.
+- `timestep`: Timestep duration in seconds. This duration will elapse between each velocity command when a sequence (array) of velocity commands is sent to the node. This argument should be set to match the timestep from the solver that is sending control input sequences to this node.
 
 #### Launching the node
 
@@ -95,12 +95,12 @@ If sending commands using Julia, the [RosSockets.jl](https://github.com/CLeARobo
 
 With the node already started, connect to the `<IP_ADDRESS>:<PORT>` that the node is running on, via TCP.
 
-Send a sequence of linear and angular velocity pairs to the node by writing to this port using the JSON format.
+Send a sequence of linear and angular velocity pairs to the node by writing to this port using the JSON format, ending the line with the newline character (typically `\n`).
 The property name needs to be `"controls"` and the sequence needs to be formatted as an array of commands, where each command is an array containing a linear and angular command.
 Here is an example of a JSON formattted command:
 
 ```json
-{ "controls": [[0.1, 0.2], [0.15, 0.21], [0.17, 0.23]] }
+{ "controls": [[0.1, 0.2], [0.15, 0.21], [0.17, 0.23]] }\n
 ```
 
 The sequence will be published to the ROS topic `/cmd_vel` at the rate specified by the `timestep` parameter.
@@ -113,7 +113,8 @@ When done, be sure to close the TCP connection.
 
 ### State Feedback
 
-This node streams pose and twist data obtained from a motion capture system via UDP.
+This node runs a server that holds pose and twist data obtained from a motion capture system.
+A command is sent to the server to retrieve the latest pose and twist data.
 Designed to be used with the [vrpn_client_ros](http://wiki.ros.org/vrpn_client_ros) node that is used with motion capture systems like Vicon and OptiTrack.
 
 #### Configuration
@@ -124,11 +125,7 @@ Parameters:
 
 - `tracker_name`: name that is assigned to the tracker using [vrpn_client_ros](http://wiki.ros.org/vrpn_client_ros). The pose and twist topics that will be subscribed to will be `/<tracker_name>/pose` and `/<tracker_name>/twist`.
 
-- `max_update_frequency`: maximum rate in Hz to stream data to the selected `ip_address` and `port`. The rate will be the lesser of the rate the topics are published at and the rate selected by this parameter.
-
-- `ip_address`: IP address that the node will stream data to. Must be formatted as `###.###.###.###`
-
-- `port`: UDP port the node will stream data to. This must be an integer between 1024 and 65535 and match the port that an external controller will listen on. It is recommended to select a port around 40000 to 60000.
+- `port`: TCP port the node will listen on. This must be an integer between 1024 and 65535 and match the port that control commands are being sent to. It is recommended to select a port around 40000 to 60000.
 
 #### Launching the node
 
@@ -152,9 +149,16 @@ Stop the node by pressing `Ctrl+C` on the shell the node was launched from.
 
 If receiving data using Julia, the [RosSockets.jl](https://github.com/CLeARoboticsLab/RosSockets.jl) package may be used to easily accomplish the below.
 
-With the node already started, receive data on the configured `<IP_ADDRESS>:<PORT>`.
+With the node already started, connect to the `<IP_ADDRESS>:<PORT>` that the node is running on, via TCP.
 
-Data is sent using the the JSON format. Four key/value pairs are sent, which represent the pose and twist of the tracked object:
+Send a command to get feedback data by writing to this port using the JSON format, ending the line with the newline character (typically `\n`).
+The property name needs to be `"action"` and the command needs to be `"get_feedback_data"`:
+
+```json
+{ "action": "get_feedback_data" }\n
+```
+
+Feedback data is sent back using the the JSON format. Four key/value pairs are sent, which represent the pose and twist of the tracked object:
 
 - `position`: a 3d vector representing the x, y, and z position of the object
 
@@ -164,7 +168,7 @@ Data is sent using the the JSON format. Four key/value pairs are sent, which rep
 
 - `angular_vel`: a 3d vector representing the angular x, y, and z velocity of the object.
 
-When done, be sure to close the UDP connection.
+When done, be sure to close the TCP connection.
 
 ### Motion Tracker Simulation
 
