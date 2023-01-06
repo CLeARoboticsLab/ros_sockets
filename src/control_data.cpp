@@ -12,7 +12,6 @@ void ControlData::update(std::vector<VelocityCommand> value)
 	data_ = std::move(value);
 	is_updated_ = true;
 	condition_variable_.notify_all();
-	ROS_INFO_STREAM("Control commands received");
 }
 
 auto ControlData::hasNewData() const -> bool

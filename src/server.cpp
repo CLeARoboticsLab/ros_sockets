@@ -49,6 +49,15 @@ void Server::scheduleRead()
       });
 }
 
+void Server::scheduleWrite(std::string data)
+{
+  asio::async_write(socket_, boost::asio::buffer(data),
+      [this](const boost::system::error_code &error, std::size_t bytes_transferred)
+      {
+        this->writeHandler(error, bytes_transferred);
+      });
+}
+
 void Server::scheduleAccept()
 {
 	ROS_INFO_STREAM("Waiting for client to connect...");
@@ -75,9 +84,20 @@ void Server::readHandler(const boost::system::error_code &error,
     std::string payload;
     std::getline(stream, payload);
     nlohmann::json json_data = nlohmann::json::parse(payload);
-    processJson(json_data);
+    processInboundJson(json_data);
     scheduleRead();
   }
 }
 
+void Server::writeHandler(const boost::system::error_code &error,
+    std::size_t /*bytes_transferred*/)
+{
+  if (error)
+  {
+    ROS_WARN_STREAM("Failed to write to socket: " << error.message());
+    ROS_INFO_STREAM("Closing socket...");
+    socket_.close();
+    scheduleAccept();
+  }
+}
 } // namespace communication
