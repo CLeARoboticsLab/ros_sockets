@@ -1,0 +1,6 @@
+<launch>
+    <!-- launch experiment time -->
+    <node pkg="ros_sockets" type="experiment_time" name="experiment_time" output="screen">
+        <param name="port" value="42423" type="int" />
+    </node>
+</launch>
