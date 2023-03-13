@@ -48,6 +48,7 @@ class ExperimentTime
       std_msgs::Time time_msg;
       time_msg.data = time_server_->time();
       pub_.publish(time_msg);
+      ROS_INFO_STREAM("Publishing start time of: " << time_msg.data);
     }
 
     void shutdown()
