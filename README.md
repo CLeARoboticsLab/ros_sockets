@@ -233,7 +233,7 @@ roslaunch ros_sockets experiment_time.launch
 
 #### Stopping the node
 
-Stop the node by pressing `Ctrl+C` on the shell the node was launched from.ssing `Ctrl+C` on the shell the node was launched from.
+Stop the node by pressing `Ctrl+C` on the shell the node was launched from.
 
 #### Controlling the node
 
@@ -244,6 +244,49 @@ Control the node with the following JSON strings, sent to the node over TCP:
 - `{ "action": "start_experiment" }\n` : Store the current ROS time and publish this time to `/start_time`.
 - `{ "action": "stop_experiment" }\n` : Store a time of 0 and publish this time to `/start_time`.
 - `{ "action": "get_time_elapsed" }\n` : Calculate the time elapsed since `start_experiment` was last called (in ROS time) and reply with it over TCP. The message is JSON formatted as `{ "elapsed_time": d }\n` where `d` is the time elapsed in double precision.
+
+### Array Publisher
+
+This node receives an 1-dimensional array (vector) over TCP and publishes the array to a topic named by the user.
+
+#### Configuration
+
+Edit the values of the following parameters located in the `launch/array_publisher.launch` file.
+
+Parameters:
+
+- `port`: TCP port the node will listen on. This must be an integer between 1024 and 65535 and match the port that control commands are being sent to. It is recommended to select a port around 40000 to 60000.
+- `topic_name`: The name of the topic to publish the array to.
+
+#### Launching the node
+
+On a machine with ROS installed, start `roscore` if it is not already started:
+
+```sh
+roscore
+```
+
+In a new shell, launch the node with the following:
+
+```sh
+roslaunch ros_sockets array_publisher.launch
+```
+
+#### Stopping the node
+
+Stop the node by pressing `Ctrl+C` on the shell the node was launched from.
+
+#### Controlling the node
+
+With the node already started, connect to the `<IP_ADDRESS>:<PORT>` that the node is running on, via TCP.
+
+Send a JSON string with the property name as `"array"` and the value being the array. Make sure the string ends with the newline character `\n`. Here is an example of a properly formatted JSON:
+
+```json
+{ "data": [1.0, 2.0, 3.0, 4.0] }\n
+```
+
+When done, be sure to close the TCP connection.
 
 ## Multiple Node Launch File Examples
 
