@@ -25,11 +25,11 @@ class ArrayPublisher
       {
         int port;
         nh_.getParam("array_publisher/port", port);
-        nh_.getParam("array_publisher/node_name", node_name_);
+        nh_.getParam("array_publisher/topic_name", topic_name_);
 
         ROS_INFO_STREAM("Initializing Arrary Publisher node");
         const auto queue_size = 100;
-        pub_ = nh_.advertise<std_msgs::Float64MultiArray>(node_name_, queue_size);
+        pub_ = nh_.advertise<std_msgs::Float64MultiArray>(topic_name_, queue_size);
 
         ROS_INFO_STREAM("Starting array server on port " << port);
         array_server_ = new communication::ArrayServer(command_data_, port);
@@ -59,7 +59,7 @@ class ArrayPublisher
     }
 
   private:
-    std::string node_name_;
+    std::string topic_name_;
     ros::NodeHandle nh_;
     ros::Publisher pub_;
 

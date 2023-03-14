@@ -1,0 +1,7 @@
+<launch>
+    <!-- launch experiment time -->
+    <node pkg="ros_sockets" type="array_publisher" name="array_publisher" output="screen">
+        <param name="port" value="42424" type="int" />
+        <param name="topic_name" value="array" type="str" />
+    </node>
+</launch>
