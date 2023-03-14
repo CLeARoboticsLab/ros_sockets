@@ -3,6 +3,7 @@ project(ros_sockets)
 
 find_package(catkin REQUIRED COMPONENTS
 	roscpp
+	std_msgs
 	geometry_msgs
 )
 
@@ -42,7 +43,18 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS	velocity_control gazebo_tracker state_feedback
+add_executable(experiment_time
+	src/experiment_time.cpp
+	src/server.cpp
+	src/time_server.cpp
+	src/command_data.cpp
+)
+target_link_libraries(
+	experiment_time
+	${catkin_LIBRARIES}
+)
+
+install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
