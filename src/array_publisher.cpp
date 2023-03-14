@@ -48,7 +48,7 @@ class ArrayPublisher
         return;
 
       std_msgs::Float64MultiArray array_msg;
-      // time_msg.data = time_server_->time(); TODO
+      array_msg.data = array_server_->data();
       pub_.publish(array_msg);
       ROS_INFO_STREAM("Publishing array");
     }
