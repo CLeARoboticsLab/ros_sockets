@@ -13,6 +13,7 @@ ArrayServer::ArrayServer(std::shared_ptr<CommandData> command_data, std::uint16_
 void ArrayServer::processInboundJson(nlohmann::json json_data)
 {
   // TODO
+  ROS_INFO_STREAM("Data received");
 }
 
 } // namespace communication

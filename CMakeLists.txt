@@ -54,7 +54,18 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time
+add_executable(array_publisher
+	src/array_publisher.cpp
+	src/server.cpp
+	src/array_server.cpp
+	src/command_data.cpp
+)
+target_link_libraries(
+	array_publisher
+	${catkin_LIBRARIES}
+)
+
+install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time array_publisher
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
