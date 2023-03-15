@@ -54,7 +54,7 @@ class ExperimentTime
     void shutdown()
     {
       std_msgs::Time time_msg;
-      ros::Time t;
+      ros::Time t(0.0);
       time_msg.data = t;
       pub_.publish(time_msg);
       ros::shutdown();
