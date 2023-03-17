@@ -7,11 +7,18 @@ find_package(catkin REQUIRED COMPONENTS
 	geometry_msgs
 )
 
-catkin_package()
+catkin_package(
+	INCLUDE_DIRS include
+	LIBRARIES server
+)
 
 include_directories(
 	include
 	${catkin_INCLUDE_DIRS}
+)
+
+add_library(server
+   src/server.cpp
 )
 
 add_executable(velocity_control
@@ -65,7 +72,7 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time array_publisher
+install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time array_publisher server
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
