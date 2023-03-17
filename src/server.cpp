@@ -51,7 +51,8 @@ void Server::scheduleRead()
 
 void Server::scheduleWrite(std::string data)
 {
-  asio::async_write(socket_, boost::asio::buffer(data),
+  data_ = data;
+  asio::async_write(socket_, boost::asio::buffer(data_),
       [this](const boost::system::error_code &error, std::size_t bytes_transferred)
       {
         this->writeHandler(error, bytes_transferred);
