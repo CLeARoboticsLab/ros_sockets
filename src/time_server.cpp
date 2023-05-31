@@ -22,7 +22,7 @@ void TimeServer::processInboundJson(nlohmann::json json_data)
   }
   else if (json_data["action"] == "stop_experiment")
   {
-    ros::Time t;
+    ros::Time t(0.0);
     time_ = t;
     command_data_->update();
   }

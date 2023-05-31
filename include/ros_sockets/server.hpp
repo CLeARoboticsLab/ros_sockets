@@ -38,6 +38,7 @@ class Server
     asio::ip::tcp::acceptor acceptor_;
     asio::ip::tcp::socket socket_;
     asio::streambuf buffer_;
+    std::string data_;
 };
 
 } // namespace communication
