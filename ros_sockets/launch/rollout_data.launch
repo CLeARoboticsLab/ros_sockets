@@ -1,0 +1,6 @@
+<launch>
+    <!-- start the rollout data server -->
+    <node pkg="ros_sockets" type="rollout_data" name="rollout_data" output="screen">
+        <param name="port" value="42425" type="int" />
+    </node>
+</launch>
