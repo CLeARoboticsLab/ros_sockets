@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
 	roscpp
 	std_msgs
 	geometry_msgs
+	ros_sockets_msgs
 )
 
 catkin_package(
@@ -72,7 +73,17 @@ target_link_libraries(
 	${catkin_LIBRARIES}
 )
 
-install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time array_publisher server
+add_executable(rollout_data
+	src/rollout_data.cpp
+	src/server.cpp
+	src/rollout_data_server.cpp
+)
+target_link_libraries(
+	rollout_data
+	${catkin_LIBRARIES}
+)
+
+install(TARGETS	velocity_control gazebo_tracker state_feedback experiment_time array_publisher server rollout_data
   	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

@@ -35,6 +35,7 @@ For a typical ROS installation, your current directory should now be `~/catkin_w
 Build the package:
 
 ```sh
+catkin_make --only-pkg-with-deps ros_sockets_msgs
 catkin_make --only-pkg-with-deps ros_sockets
 ```
 
@@ -167,6 +168,67 @@ Feedback data is sent back using the the JSON format. Four key/value pairs are s
 - `linear_vel`: a 3d vector representing the linear x, y, and z velocity of the object.
 
 - `angular_vel`: a 3d vector representing the angular x, y, and z velocity of the object.
+
+When done, be sure to close the TCP connection.
+
+### Rollout Data
+
+This node runs a server that holds rollout data (times, states, desired state, controls) obtained from a rollout.
+Rollout data is collected by a node created by the user and then this data much be published to `/rollout_data`.
+A command is sent to the server to retrieve the data.
+
+#### Configuration
+
+Edit the values of the following parameters located in the `launch/rollout_data.launch` file.
+
+Parameters:
+
+- `port`: TCP port the node will listen on. This must be an integer between 1024 and 65535 and match the port that control commands are being sent to. It is recommended to select a port around 40000 to 60000.
+
+#### Launching the node
+
+On a machine with ROS installed, start `roscore` if it is not already started:
+
+```sh
+roscore
+```
+
+In a new shell, launch the node with the following:
+
+```sh
+roslaunch ros_sockets rollout_data.launch
+```
+
+#### Stopping the node
+
+Stop the node by pressing `Ctrl+C` on the shell the node was launched from.
+
+#### Publishing rollout data to the node
+
+Publish a `ros_sockets_msgs::RolloutData` message to the `/rollout_data` topic.
+
+#### Receiving rollout data from the node
+
+If receiving data using Julia, the [RosSockets.jl](https://github.com/CLeARoboticsLab/RosSockets.jl) package may be used to easily accomplish the below.
+
+With the node already started, connect to the `<IP_ADDRESS>:<PORT>` that the node is running on, via TCP.
+
+Send a command to get rollout data by writing to this port using the JSON format, ending the line with the newline character (typically `\n`).
+The property name needs to be `"action"` and the command needs to be `"get_rollout_data"`:
+
+```json
+{ "action": "get_rollout_data" }\n
+```
+
+Rollout data is sent back using the the JSON format. Four key/value pairs are sent, which represent the pose and twist of the tracked object:
+
+- `ts`: a vector of timestamps
+
+- `xs`: a vector of vectors representing the state at each timestamp
+
+- `xds`: a vector of vectors representing the desired state at each timestamp
+
+- `us`: a vector of vectors representing the control input at each timestamp
 
 When done, be sure to close the TCP connection.
 
